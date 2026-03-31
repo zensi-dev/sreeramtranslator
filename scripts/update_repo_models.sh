@@ -3,9 +3,9 @@
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-BASE_DIR="${BASE_DIR:-$REPO_ROOT/local_runs/pbsmt_demo}"
-EXPORTS_DIR="$BASE_DIR/exports"
-TRAINED_MODELS_DIR="$BASE_DIR/models"
+REPORTS_DIR="${REPORTS_DIR:-$REPO_ROOT/reports}"
+EXPORTS_DIR="$REPORTS_DIR"
+TRAINED_MODELS_DIR="$REPORTS_DIR/models"
 TARGET_MODELS_DIR="$REPO_ROOT/models"
 
 TMP_DIR="$(mktemp -d)"
@@ -45,6 +45,15 @@ load_from_archives() {
   mkdir -p "$TMP_DIR/extracted"
   tar -xzf "$archive_en_de" -C "$TMP_DIR/extracted"
   tar -xzf "$archive_de_en" -C "$TMP_DIR/extracted"
+
+  for direction in en-de de-en; do
+    for file_name in "${required_files[@]}"; do
+      if [ ! -f "$TMP_DIR/extracted/$direction/model/$file_name" ]; then
+        printf 'Archive is missing required file, falling back to training directory: %s\n' "$TMP_DIR/extracted/$direction/model/$file_name" >&2
+        return 1
+      fi
+    done
+  done
 
   copy_model_files "$TMP_DIR/extracted/en-de/model" "$TARGET_MODELS_DIR/en-de/model"
   copy_model_files "$TMP_DIR/extracted/de-en/model" "$TARGET_MODELS_DIR/de-en/model"

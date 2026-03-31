@@ -35,8 +35,8 @@ Excluded from the repo:
 
 1. raw corpora
 2. preprocessing outputs
-3. intermediate training files
-4. local training runs
+3. intermediate training work files
+4. generated reports
 
 ## Local Run
 
@@ -58,13 +58,32 @@ Run the app:
 bash scripts/run_streamlit_local.sh
 ```
 
-Update the repo-level deployable models after a fresh training run:
+Run the app in Docker against the repo-level inference models:
 
 ```bash
-bash scripts/update_repo_models.sh
+docker compose up streamlit-app
 ```
 
-This copies only the minimal inference artifacts into `models/`.
+Train and refresh the repo-level deployable models in one Docker command:
+
+```bash
+docker compose run --rm pbsmt-train
+```
+
+This trains, evaluates, and then refreshes the minimal inference artifacts under `models/` automatically.
+
+Training data and reports now live under:
+
+1. `data/raw/`
+2. `data/processed/`
+3. `data/work/`
+4. `reports/`
+
+Current demo note:
+
+1. The default improved demo variant mixes News Commentary, Europarl, and a Tatoeba-derived conversational slice biased toward short everyday sentences.
+2. This is still a small classical PBSMT system, so short formal and semi-conversational sentences work better than rare compounds or broad open-domain text.
+3. The training script keeps this variant reproducible through deterministic shuffling and explicit corpus-size controls.
 
 ## Streamlit Community Cloud Attempt
 

@@ -9,7 +9,7 @@ This app loads the locally trained PBSMT Moses models and lets you test both dir
 
 ## Prerequisite
 
-Train the models first:
+Refresh the repo-level inference models first:
 
 ```bash
 docker compose run --rm pbsmt-train
@@ -29,5 +29,6 @@ Then open:
 
 1. The app uses only the trained local Moses models.
 2. There is no fallback translator.
-3. If the app says a model file is missing, rerun training first.
-4. For the repo-ready layout, keep only the minimal inference artifacts under `models/`.
+3. Docker app testing uses the repo-level `models/` directory.
+4. If the app says a model file is missing, rerun training and refresh the repo models.
+5. For the repo-ready layout, keep only the minimal inference artifacts under `models/`.

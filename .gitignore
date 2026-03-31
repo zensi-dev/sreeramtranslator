@@ -10,15 +10,13 @@ __pycache__/
 venv/
 env/
 
-# Training outputs and local runs
-local_runs/
+# Training outputs and reports
+reports/
 
 # Raw and intermediate MT data
-data/
-raw/
-processed/
-work/
-exports/
+data/raw/
+data/processed/
+data/work/
 
 # Local toolchains and build artifacts
 tools/
