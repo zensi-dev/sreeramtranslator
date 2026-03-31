@@ -24,6 +24,8 @@ exports/
 tools/
 bin/
 build/
+!runtime/bin/
+!runtime/bin/moses
 
 # OS/editor noise
 .DS_Store
