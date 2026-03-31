@@ -15,7 +15,7 @@ This app uses:
 
 ## Repo Layout
 
-Inference-only runtime files are committed under `models/`.
+Inference-only runtime files are committed under `models/`, and the repo-bundled decoder binary is under `runtime/bin/`.
 
 Included per direction:
 
@@ -59,7 +59,7 @@ Important note:
 
 1. Streamlit Community Cloud supports `requirements.txt`
 2. Streamlit Community Cloud supports `packages.txt`
-3. Heavy custom C++ runtime builds are still not guaranteed to succeed there
-4. Moses runtime requirements may still make Community Cloud deployment fail or become unstable
+3. This repo includes a bundled `runtime/bin/moses` binary for a best-effort inference attempt
+4. The deployment may still fail if Streamlit Cloud runtime compatibility or memory limits are hit
 
 If Community Cloud fails, the recommended fallback hosting target is a Linux VM running Streamlit directly.

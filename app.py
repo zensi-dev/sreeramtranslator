@@ -9,7 +9,7 @@ import streamlit as st
 
 APP_ROOT = Path(__file__).resolve().parent
 DEFAULT_MODELS_ROOT = APP_ROOT / "models"
-DEFAULT_MOSES_BIN = APP_ROOT / "tools" / "mosesdecoder" / "bin" / "moses"
+DEFAULT_MOSES_BIN = APP_ROOT / "runtime" / "bin" / "moses"
 MODELS_ROOT = Path(os.environ.get("PBSMT_MODELS_ROOT", str(DEFAULT_MODELS_ROOT))).resolve()
 MOSES_BIN = Path(os.environ.get("MOSES_BIN", str(DEFAULT_MOSES_BIN))).resolve()
 
