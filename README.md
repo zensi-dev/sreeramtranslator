@@ -15,7 +15,7 @@ This app uses:
 
 ## Repo Layout
 
-Inference-only runtime files are committed under `models/`, and the repo-bundled decoder binary is under `runtime/bin/`.
+Inference-only runtime files are committed under `models/`, and the repo-bundled classical inference runtime is under `runtime/`.
 
 Included per direction:
 
@@ -23,6 +23,12 @@ Included per direction:
 2. `phrase-table.gz`
 3. `reordering-table.wbe-msd-bidirectional-fe.gz`
 4. `lm.binary`
+
+Included for inference runtime:
+
+1. `runtime/bin/moses`
+2. Moses tokenizer/recaser scripts needed at inference time
+3. English and German truecase models
 
 Excluded from the repo:
 

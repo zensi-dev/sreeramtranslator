@@ -44,5 +44,6 @@ Then open:
 
 1. Default Moses binary path: `runtime/bin/moses`
 2. Default model path: `models/`
-3. You can override them with `MOSES_BIN` and `PBSMT_MODELS_ROOT`
-4. If you build your own host-local tools, point `MOSES_BIN` at `tools/mosesdecoder/bin/moses`
+3. The app also uses bundled Moses preprocessing scripts and truecase models under `runtime/`
+4. You can override `MOSES_BIN` and `PBSMT_MODELS_ROOT`
+5. If you build your own host-local tools, point `MOSES_BIN` at `tools/mosesdecoder/bin/moses`
