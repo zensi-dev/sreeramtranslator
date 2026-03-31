@@ -31,9 +31,9 @@ Use tools from the classical SMT pipeline only.
 2. The primary approved corpora for the demo baseline are:
    - News Commentary v9
    - Europarl v7
-3. For the fast demo baseline, use a cleaned subset of approximately 40,000 parallel sentence pairs:
-   - 25,000 from News Commentary
-   - 15,000 from Europarl
+3. For the improved demo baseline, use a cleaned subset of approximately 100,000 parallel sentence pairs:
+   - 60,000 from News Commentary
+   - 40,000 from Europarl
 4. Do not switch to noisier corpora such as Common Crawl, ParaCrawl, OpenSubtitles, or WikiMatrix unless explicitly requested and clearly documented.
 5. Keep the same cleaned parallel subset available for both translation directions.
 

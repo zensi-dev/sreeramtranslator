@@ -57,6 +57,14 @@ Run the app:
 bash scripts/run_streamlit_local.sh
 ```
 
+Update the repo-level deployable models after a fresh training run:
+
+```bash
+bash scripts/update_repo_models.sh
+```
+
+This copies only the minimal inference artifacts into `models/`.
+
 ## Streamlit Community Cloud Attempt
 
 This repo is prepared for a best-effort Streamlit deployment attempt.

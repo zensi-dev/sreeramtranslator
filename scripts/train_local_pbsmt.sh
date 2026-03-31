@@ -5,9 +5,9 @@ set -euo pipefail
 BASE_DIR="${BASE_DIR:-/workspace/local_runs/pbsmt_demo}"
 TOOLS_DIR="${PBSMT_TOOLS:-/opt/pbsmt/tools}"
 
-NEWS_PAIRS="${NEWS_PAIRS:-25000}"
-EUROPARL_PAIRS="${EUROPARL_PAIRS:-15000}"
-TRAIN_PAIRS="${TRAIN_PAIRS:-36000}"
+NEWS_PAIRS="${NEWS_PAIRS:-60000}"
+EUROPARL_PAIRS="${EUROPARL_PAIRS:-40000}"
+TRAIN_PAIRS="${TRAIN_PAIRS:-96000}"
 VALID_PAIRS="${VALID_PAIRS:-2000}"
 TEST_PAIRS="${TEST_PAIRS:-2000}"
 MAX_SENTENCE_LENGTH="${MAX_SENTENCE_LENGTH:-50}"
@@ -251,11 +251,21 @@ for direction, lm_path in mapping.items():
     print(f"Updated {ini_path}")
 PY
 
-(cd "$MODELS/en-de/model" && "$MOSES/bin/moses" -f moses.ini < "$WORK/test.tc.en" > "$EXPORTS/test_outputs/pred.de")
-(cd "$MODELS/de-en/model" && "$MOSES/bin/moses" -f moses.ini < "$WORK/test.tc.de" > "$EXPORTS/test_outputs/pred.en")
+(cd "$MODELS/en-de/model" && "$MOSES/bin/moses" -f moses.ini -threads "$THREADS" -v 0 < "$WORK/test.tc.en" > "$EXPORTS/test_outputs/pred.de") &
+pid_en_de=$!
+(cd "$MODELS/de-en/model" && "$MOSES/bin/moses" -f moses.ini -threads "$THREADS" -v 0 < "$WORK/test.tc.de" > "$EXPORTS/test_outputs/pred.en") &
+pid_de_en=$!
 
-python3 -m sacrebleu "$WORK/test.tc.de" -i "$EXPORTS/test_outputs/pred.de" -m bleu -b -w 4 | tee "$EXPORTS/test_outputs/bleu_en_de.txt"
-python3 -m sacrebleu "$WORK/test.tc.en" -i "$EXPORTS/test_outputs/pred.en" -m bleu -b -w 4 | tee "$EXPORTS/test_outputs/bleu_de_en.txt"
+wait "$pid_en_de"
+wait "$pid_de_en"
+
+perl "$MOSES/scripts/recaser/detruecase.perl" < "$EXPORTS/test_outputs/pred.de" | perl "$MOSES/scripts/tokenizer/detokenizer.perl" -q -l de > "$EXPORTS/test_outputs/pred.detok.de"
+perl "$MOSES/scripts/recaser/detruecase.perl" < "$EXPORTS/test_outputs/pred.en" | perl "$MOSES/scripts/tokenizer/detokenizer.perl" -q -l en > "$EXPORTS/test_outputs/pred.detok.en"
+perl "$MOSES/scripts/recaser/detruecase.perl" < "$WORK/test.tc.de" | perl "$MOSES/scripts/tokenizer/detokenizer.perl" -q -l de > "$EXPORTS/test_outputs/ref.detok.de"
+perl "$MOSES/scripts/recaser/detruecase.perl" < "$WORK/test.tc.en" | perl "$MOSES/scripts/tokenizer/detokenizer.perl" -q -l en > "$EXPORTS/test_outputs/ref.detok.en"
+
+python3 -m sacrebleu "$EXPORTS/test_outputs/ref.detok.de" -i "$EXPORTS/test_outputs/pred.detok.de" -m bleu -b -w 4 | tee "$EXPORTS/test_outputs/bleu_en_de.txt"
+python3 -m sacrebleu "$EXPORTS/test_outputs/ref.detok.en" -i "$EXPORTS/test_outputs/pred.detok.en" -m bleu -b -w 4 | tee "$EXPORTS/test_outputs/bleu_de_en.txt"
 
 tar -czf "$EXPORTS/model_en_de.tar.gz" -C "$MODELS" en-de/model
 tar -czf "$EXPORTS/model_de_en.tar.gz" -C "$MODELS" de-en/model

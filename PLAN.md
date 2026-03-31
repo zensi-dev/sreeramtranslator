@@ -31,14 +31,14 @@ This is not a production MT system.
 
 ### Training Subset
 
-Use a cleaned subset of about 40,000 parallel sentence pairs:
+Use a cleaned subset of about 100,000 parallel sentence pairs:
 
-1. 25,000 pairs from News Commentary
-2. 15,000 pairs from Europarl
+1. 60,000 pairs from News Commentary
+2. 40,000 pairs from Europarl
 
 ### Data Split
 
-1. Train: 36,000 pairs
+1. Train: 96,000 pairs
 2. Validation / tuning: 2,000 pairs
 3. Test: 2,000 pairs
 
@@ -58,7 +58,7 @@ Use a cleaned subset of about 40,000 parallel sentence pairs:
 4. Normalize punctuation
 5. Tokenize English and German text
 6. Clean sentence pairs by length and ratio
-7. Build a deterministic 40k subset
+7. Build a deterministic 100k subset
 8. Train truecaser models for English and German
 9. Apply truecasing to train, validation, and test sets
 10. Train German language model for `en->de`
@@ -66,6 +66,8 @@ Use a cleaned subset of about 40,000 parallel sentence pairs:
 12. Train phrase-based model for `en->de`
 13. Train phrase-based model for `de->en`
 14. Save model artifacts for deployment
+15. Ensure inference uses the same normalization, tokenization, truecasing, detruecasing, and detokenization steps as training
+16. Tune both directions on the validation split after the stronger 100k baseline is stable
 
 ## Quality Targets
 
@@ -134,4 +136,4 @@ Do not commit raw corpora, intermediate training files, or local build outputs.
 
 1. GPU is not important for this project because PBSMT training is CPU-oriented.
 2. Google Colab is acceptable for the demo baseline if the workflow stays small and self-contained.
-3. A small clean subset is preferred over a large noisy corpus for this demo.
+3. A clean 100k subset from the approved corpora is preferred over a larger noisy corpus for this demo.

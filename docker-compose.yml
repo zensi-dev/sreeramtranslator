@@ -8,9 +8,9 @@ services:
       - ./:/workspace
     environment:
       BASE_DIR: /workspace/local_runs/pbsmt_demo
-      NEWS_PAIRS: "25000"
-      EUROPARL_PAIRS: "15000"
-      TRAIN_PAIRS: "36000"
+      NEWS_PAIRS: "60000"
+      EUROPARL_PAIRS: "40000"
+      TRAIN_PAIRS: "96000"
       VALID_PAIRS: "2000"
       TEST_PAIRS: "2000"
       MAX_SENTENCE_LENGTH: "50"
