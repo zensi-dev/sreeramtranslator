@@ -1,0 +1,33 @@
+services:
+  pbsmt-train:
+    build:
+      context: .
+      dockerfile: docker/pbsmt-local/Dockerfile
+    working_dir: /workspace
+    volumes:
+      - ./:/workspace
+    environment:
+      BASE_DIR: /workspace/local_runs/pbsmt_demo
+      NEWS_PAIRS: "25000"
+      EUROPARL_PAIRS: "15000"
+      TRAIN_PAIRS: "36000"
+      VALID_PAIRS: "2000"
+      TEST_PAIRS: "2000"
+      MAX_SENTENCE_LENGTH: "50"
+      MAX_PHRASE_LENGTH: "5"
+      THREADS: "4"
+    command: ["bash", "scripts/train_local_pbsmt.sh"]
+
+  streamlit-app:
+    build:
+      context: .
+      dockerfile: docker/pbsmt-local/Dockerfile
+    working_dir: /workspace
+    volumes:
+      - ./:/workspace
+    environment:
+      PBSMT_MODELS_ROOT: /workspace/local_runs/pbsmt_demo/models
+      MOSES_BIN: /opt/pbsmt/tools/mosesdecoder/bin/moses
+    ports:
+      - "8501:8501"
+    command: ["bash", "-lc", "python3 -m pip install -q -r requirements-streamlit.txt && streamlit run app.py --server.address 0.0.0.0 --server.port 8501"]

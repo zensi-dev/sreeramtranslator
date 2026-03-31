@@ -1,0 +1,31 @@
+# Python and Streamlit
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.streamlit/
+
+# Local virtual environments
+.venv/
+venv/
+env/
+
+# Training outputs and local runs
+local_runs/
+
+# Raw and intermediate MT data
+data/
+raw/
+processed/
+work/
+exports/
+
+# Local toolchains and build artifacts
+tools/
+bin/
+build/
+
+# OS/editor noise
+.DS_Store
+.idea/
+.vscode/

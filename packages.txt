@@ -1,0 +1,8 @@
+build-essential
+cmake
+git
+libboost-all-dev
+libbz2-dev
+liblzma-dev
+pkg-config
+zlib1g-dev
