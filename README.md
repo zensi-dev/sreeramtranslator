@@ -29,6 +29,7 @@ Included for inference runtime:
 1. `runtime/bin/moses`
 2. Moses tokenizer/recaser scripts needed at inference time
 3. English and German truecase models
+4. Moses nonbreaking-prefix tokenizer data
 
 Excluded from the repo:
 
